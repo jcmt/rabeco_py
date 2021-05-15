@@ -17,6 +17,7 @@ def load_images(path):
     valid_ext = ('png', 'jpg', 'gif')
     img_files = []
     [img_files.extend(glob('{}/*.{}'.format(path, ext))) for ext in valid_ext]
+    assert img_files, IOError('No image files found in {}'.format(path))
 
     imgs = [mpimg.imread(img_file)[:, :, 0] for img_file in img_files]
 
