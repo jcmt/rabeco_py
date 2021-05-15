@@ -1,8 +1,11 @@
 import string
-import keyboard
 import random
+
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+
+import keyboard
+
 
 alphabet = tuple(string.ascii_lowercase)
 
@@ -30,19 +33,16 @@ fig = plt.figure()
 figManager = plt.get_current_fig_manager()
 figManager.full_screen_toggle()
 
-print('going for while')
-print(alphabet)
+print('Going for while loop...')
 while True:
-    try:
-        #if keyboard.is_pressed('g'):
-        if keyboard.read_key() in alphabet:
-            print('You pressed a key!')
-            plt.clf()
-            plt.imshow(img, cmap=random.choice(cmaps))
-            plt.axis('off')
-            plt.pause(0.01)
-            #break
-    except:
+    if keyboard.read_key() in alphabet:
+        print('You pressed a key!')
+        plt.clf()
+        plt.imshow(img, cmap=random.choice(cmaps))
+        plt.axis('off')
+        plt.pause(0.01)
+    elif keyboard.is_pressed('esc'):
+        print('Stopping while loop!')
         plt.close('all')
         break
 
