@@ -1,8 +1,10 @@
+import string
 import keyboard
 import random
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
+alphabet = tuple(string.ascii_lowercase)
 
 cmaps = ['viridis', 'plasma', 'inferno', 'magma', 'cividis',
          'Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
@@ -24,20 +26,24 @@ cmaps = ['viridis', 'plasma', 'inferno', 'magma', 'cividis',
 
 img = mpimg.imread('./data/stinkbug.png')[:, :, 0]
 
-plt.ion()
 fig = plt.figure()
 figManager = plt.get_current_fig_manager()
 figManager.full_screen_toggle()
 
+print('going for while')
+print(alphabet)
 while True:
     try:
-        if keyboard.is_pressed('a'):
-            print('You Pressed A Key!')
+        #if keyboard.is_pressed('g'):
+        if keyboard.read_key() in alphabet:
+            print('You pressed a key!')
             plt.clf()
             plt.imshow(img, cmap=random.choice(cmaps))
             plt.axis('off')
             plt.pause(0.01)
+            #break
     except:
+        plt.close('all')
         break
 
 print('end')
