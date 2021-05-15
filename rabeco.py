@@ -1,5 +1,6 @@
-import string
-import random
+from glob import glob
+from string import ascii_lowercase
+from random import choice
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -7,9 +8,7 @@ import matplotlib.image as mpimg
 import keyboard
 
 
-alphabet = tuple(string.ascii_lowercase)
-
-cmaps = ['viridis', 'plasma', 'inferno', 'magma', 'cividis',
+cmaps = ('viridis', 'plasma', 'inferno', 'magma', 'cividis',
          'Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
          'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
          'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn',
@@ -25,9 +24,13 @@ cmaps = ['viridis', 'plasma', 'inferno', 'magma', 'cividis',
          'flag', 'prism', 'ocean', 'gist_earth', 'terrain', 'gist_stern',
          'gnuplot', 'gnuplot2', 'CMRmap', 'cubehelix', 'brg',
          'gist_rainbow', 'rainbow', 'jet', 'turbo', 'nipy_spectral',
-         'gist_ncar']
+         'gist_ncar')
 
-img = mpimg.imread('./data/stinkbug.png')[:, :, 0]
+valid_ext = ('png', 'jpg', 'gif')
+img_files = []
+[img_files.extend(glob('./data/*.' + ext)) for ext in valid_ext]
+
+img = [mpimg.imread(img_file)[:, :, 0] for img_file in img_files]
 
 fig = plt.figure()
 figManager = plt.get_current_fig_manager()
@@ -35,10 +38,10 @@ figManager.full_screen_toggle()
 
 print('Going for while loop...')
 while True:
-    if keyboard.read_key() in alphabet:
+    if keyboard.read_key() in tuple(ascii_lowercase):
         print('You pressed a key!')
         plt.clf()
-        plt.imshow(img, cmap=random.choice(cmaps))
+        plt.imshow(choice(img), cmap=choice(cmaps))
         plt.axis('off')
         plt.pause(0.01)
     elif keyboard.is_pressed('esc'):
